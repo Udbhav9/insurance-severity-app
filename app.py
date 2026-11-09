@@ -202,7 +202,8 @@ with tab2:
             'witnesses': 1,
             'auto_make': 'Saab',
             'auto_model': '92x',
-            'auto_year': 2010
+            'auto_year': 2010,
+            'fraud_reported': 'N'
         }])
 
         try:
