@@ -27,18 +27,22 @@ st.markdown(
 # Load Pre-Trained Pipeline
 @st.cache_resource
 def load_pipeline():
+  # Load Scikit-Learn Preprocessor
   with open('preprocessor.pkl', 'rb') as f:
     preprocessor = pickle.load(f)
-  with open('xgb_model.pkl', 'rb') as f:
-    model = pickle.load(f)
+
+  # Load XGBoost natively from JSON
+  model = xgb.XGBRegressor()
+  model.load_model('xgb_model.json')
+
   return preprocessor, model
 
 
 try:
   preprocessor, model = load_pipeline()
-  st.sidebar.success("✅ Production Model Pipeline Loaded")
+  st.sidebar.success('✅ Model Pipeline Loaded Successfully')
 except Exception as e:
-  st.sidebar.error(f"❌ Loading Error: {e}")
+  st.sidebar.error(f'❌ Loading Error: {e}')
 
 # Header
 st.markdown(
