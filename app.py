@@ -25,7 +25,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ------------------------------------------------------------------------------
-# FAIL-SAFE PIPELINE INITIALIZATION (NO PICKLE DEPENDENCY)
+# FAIL-SAFE PIPELINE INITIALIZATION (LIVE PREPROCESSOR FIT)
 # ------------------------------------------------------------------------------
 @st.cache_resource
 def load_and_build_pipeline():
@@ -169,6 +169,7 @@ with tab2:
     st.divider()
 
     if st.button("🚀 Calculate Estimated Claim Severity & Risk Tier", use_container_width=True):
+        # Complete DataFrame including all 30 pre-incident features expected by preprocessor
         input_df = pd.DataFrame([{
             'months_as_customer': months_as_customer,
             'age': age,
@@ -186,7 +187,22 @@ with tab2:
             'bodily_injuries': bodily_injuries,
             'property_damage': property_damage,
             'police_report_available': police_report_available,
-            'customer_tenure_ratio': months_as_customer / (age * 12 + 1e-5)
+            'customer_tenure_ratio': months_as_customer / (age * 12 + 1e-5),
+            
+            # Neutral defaults for remaining background pre-incident features
+            'policy_csl': '250/500',
+            'insured_hobbies': 'other',
+            'insured_relationship': 'husband',
+            'capital-gains': 0,
+            'capital-loss': 0,
+            'incident_hour_of_the_day': 12,
+            'authorities_contacted': 'Police',
+            'incident_state': 'OH',
+            'incident_city': 'Columbus',
+            'witnesses': 1,
+            'auto_make': 'Saab',
+            'auto_model': '92x',
+            'auto_year': 2010
         }])
 
         try:
